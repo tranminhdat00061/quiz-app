@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB2071 Assignment</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+</head>
+<body ng-app="quizApp">
+    <header class="bg-primary text-white text-center py-3">
+        <h1>Online Quiz Platform</h1>
+        
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">QuizApp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#!/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!/contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!/login">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!/register">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!/subjects">Subjects</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4" ng-view></div>
+
+    <!-- AngularJS App -->
+    <script>
+        var app = angular.module('quizApp', ['ngRoute']);
+
+        app.config(function ($routeProvider) {
+            $routeProvider
+                .when('/', {
+                    template: '<h2>Welcome to the Online Quiz Platform!</h2><p>Choose a subject to start your quiz.</p>'
+                })
+                .when('/about', {
+                    template: '<h2>About Us</h2><p>This platform is designed to help students take quizzes easily.</p>'
+                })
+                .when('/contact', {
+                    template: '<h2>Contact Us</h2><p>Email: support@quizapp.com</p>'
+                })
+                .when('/login', {
+                    template: `<h2>Login</h2>
+                        <form>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" placeholder="Enter your username">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form>`
+                })
+                .when('/register', {
+                    template: `<h2>Register</h2>
+                        <form>
+                            <div class="mb-3">
+                                <label for="newUsername" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="newUsername" placeholder="Choose a username">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="newPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="newPassword" placeholder="Choose a password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </form>`
+                })
+                .when('/subjects', {
+                    template: `<h2>Subjects</h2>
+                        <div ng-controller="SubjectsController">
+                            <div class="row" ng-repeat="subject in subjects">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{subject.name}}</h5>
+                                            <p class="card-text">{{subject.description}}</p>
+                                            <a href="#/quiz/{{subject.id}}" class="btn btn-primary">Take Quiz</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+                })
+                .otherwise({ redirectTo: '/' });
+        });
+
+        app.controller('SubjectsController', function ($scope) {
+            $scope.subjects = [
+                { id: 1, name: 'Mathematics', description: 'Test your math skills' },
+                { id: 2, name: 'Science', description: 'Explore the world of science' },
+                { id: 3, name: 'History', description: 'Learn about historical events' }
+            ];
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
